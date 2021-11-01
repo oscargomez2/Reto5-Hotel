@@ -20,7 +20,7 @@ public class SistemaHotelesApiApplication extends WebSecurityConfigurerAdapter {
     public static void main(String[] args) {
         SpringApplication.run(SistemaHotelesApiApplication.class, args);
     }
-
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -40,3 +40,4 @@ public class SistemaHotelesApiApplication extends WebSecurityConfigurerAdapter {
         return Collections.singletonMap("name", principal.getAttribute("name"));
     }
 }
+    

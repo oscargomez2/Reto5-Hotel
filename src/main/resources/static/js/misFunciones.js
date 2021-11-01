@@ -1,5 +1,5 @@
 let urlConexion = "http://129.151.119.82:8080/api";
-//let urlConexion = "http://localhost:8070/api";
+//let urlConexion = "http://localhost:8080/api";
 let moduloCategory = "/Category";
 let moduloRoom = "/Room";
 let moduloClient = "/Client";
@@ -365,6 +365,9 @@ function agregarReserva() {
     } else if ($("#selRoom").val() === "") {
         alert('Indique la habitación de la Reserva.');
         $("#selRoom").focus();
+    } else if ($("#select-status").val()=== "") {
+        alert('Indique el estado de la reserva')
+        $("#select-status").focus();
     } else {
         registrarNuevo("Reservation");
     }
@@ -455,13 +458,24 @@ function registrarNuevo(modulo) {
             }
         });
     } else if (modulo === "Reservation") {
+        //var = select_text = $("#cmbDowload option:selected").text();
+        let opcion= $("#select-status option:selected").text()
+        let cambio
+        if (opcion == "completado"){
+            cambio="completed"
+        }
+        else{
+            cambio="cancelled"
+        }
         $.ajax({
             url: urlConexion + moduloReservation + opcionSave,
             data: JSON.stringify({
                 "startDate": $("#txtStartDate").val(),
                 "devolutionDate": $("#txtDevolutionDate").val(),
                 "client": { "idClient": $("#selClient").val() },
-                "room": { "id": $("#selRoom").val() }
+                "room": { "id": $("#selRoom").val() },
+                //"status": $("#select-status option:selected").text()
+                "status": cambio
             }),
             type: 'POST',
             contentType: 'application/json',
