@@ -64,6 +64,9 @@ public class ServicioReservation {
                 if (reservation.getDevolutionDate() != null) {
                     obtener.get().setDevolutionDate(reservation.getDevolutionDate());
                 }
+                if(reservation.getStatus() != null){
+                    obtener.get().setStatus(reservation.getStatus());
+                }
                 metodosCrud.save(obtener.get());
             }
         }

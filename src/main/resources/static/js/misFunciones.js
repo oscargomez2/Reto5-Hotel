@@ -459,14 +459,14 @@ function registrarNuevo(modulo) {
         });
     } else if (modulo === "Reservation") {
         //var = select_text = $("#cmbDowload option:selected").text();
-        let opcion= $("#select-status option:selected").text()
+        /*let opcion= $("#select-status option:selected").text()
         let cambio
         if (opcion == "completado"){
             cambio="completed"
         }
         else{
             cambio="cancelled"
-        }
+        }*/
         $.ajax({
             url: urlConexion + moduloReservation + opcionSave,
             data: JSON.stringify({
@@ -475,7 +475,8 @@ function registrarNuevo(modulo) {
                 "client": { "idClient": $("#selClient").val() },
                 "room": { "id": $("#selRoom").val() },
                 //"status": $("#select-status option:selected").text()
-                "status": cambio
+                //"status": cambio
+                "status": $("#select-status").val()
             }),
             type: 'POST',
             contentType: 'application/json',
@@ -673,6 +674,7 @@ function editarReserva(id) {
             $('#txtDevolutionDate').val(json.devolutionDate.split('T')[0]);
             $('#selClient').val(json.client.idClient);
             $('#selRoom').val(json.room.id);
+            $('#select-status').val(json.status)
         }
     });
 }
@@ -765,6 +767,9 @@ function actualizarReserva(id) {
     } else if ($("#selRoom").val() === "") {
         alert('Indique la habitación de la Reserva.');
         $("#selRoom").focus();
+    } else if ($("#select-status").val() === "") {
+        alert('Indique el estado de la reserva')
+        $("#select-status").focus();
     } else {
         actualizarRegistro("Reservation", id);
     }
@@ -866,11 +871,13 @@ function actualizarRegistro(modulo, id) {
                 "startDate": $("#txtStartDate").val(),
                 "devolutionDate": $("#txtDevolutionDate").val(),
                 "client": { "idClient": $("#selClient").val() },
-                "room": { "id": $("#selRoom").val() }
+                "room": { "id": $("#selRoom").val() },
+                "status": $("#select-status").val()
             }),
             type: 'PUT',
             contentType: 'application/json',
             dataType: 'text',
+            
             error: function (result) {
                 alert('Error: Ver log para detalles.');
                 console.log(result);
